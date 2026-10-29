@@ -1,0 +1,17 @@
+---
+- name: Actualizar y limpiar paquetes del sistema
+  hosts: all
+  tasks:
+    - name: Actualizar paquetes (Debian / Ubuntu)
+      ansible.builtin.apt:
+        update_cache: yes
+        upgrade: dist
+        autoremove: yes
+        autoclean: yes
+      when: ansible_os_family == "Debian"
+
+    - name: Actualizar paquetes (Alpine Linux)
+      community.general.apk:
+        update_cache: yes
+        upgrade: yes
+      when: ansible_os_family == "Alpine"
